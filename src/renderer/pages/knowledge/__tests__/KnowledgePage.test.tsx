@@ -348,12 +348,7 @@ vi.mock('../components/CreateKnowledgeBaseDialog', () => ({
     open: boolean
     groups: Array<{ id: string; name: string }>
     initialGroupId?: string
-    createBase: (input: {
-      name: string
-      groupId?: string
-      embeddingModelId: string | null
-      dimensions: number
-    }) => Promise<KnowledgeBase>
+    createBase: (input: { name: string; groupId?: string }) => Promise<KnowledgeBase>
     onOpenChange: (open: boolean) => void
     onCreated: (base: KnowledgeBase) => void
   }) =>
@@ -366,9 +361,7 @@ vi.mock('../components/CreateKnowledgeBaseDialog', () => ({
           onClick={async () => {
             const createdBase = await createBase({
               name: 'Base 2',
-              ...(initialGroupId ? { groupId: initialGroupId } : {}),
-              embeddingModelId: 'openai::text-embedding-3-small',
-              dimensions: 1536
+              ...(initialGroupId ? { groupId: initialGroupId } : {})
             })
             onCreated(createdBase)
             onOpenChange(false)
@@ -865,10 +858,12 @@ describe('KnowledgePage', () => {
 
     expect(screen.getByTestId('chunk-detail-panel')).toHaveTextContent('chunks:item-1')
     expect(screen.queryByTestId('data-source-panel')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('detail-header')).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: 'BackToSources' }))
 
     expect(screen.getByTestId('data-source-panel')).toHaveTextContent('1:idle')
+    expect(screen.getByTestId('detail-header')).toHaveTextContent('Base 1')
   })
 
   it('opens an embedded file preview and preserves navigator state when returning', async () => {
@@ -911,9 +906,9 @@ describe('KnowledgePage', () => {
     expect(screen.getByText('item-1.pdf')).toBeInTheDocument()
     expect(screen.queryByTestId('data-source-panel')).not.toBeInTheDocument()
     expect(screen.getByTestId('base-navigator')).not.toBeVisible()
-    expect(screen.getByTestId('detail-header')).toHaveTextContent('Base 1')
-    expect(screen.getByRole('button', { name: 'OpenRagConfig' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'OpenRecallTest' })).toBeInTheDocument()
+    expect(screen.queryByTestId('detail-header')).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'OpenRagConfig' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'OpenRecallTest' })).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button', { name: '返回' }))
 
@@ -921,6 +916,7 @@ describe('KnowledgePage', () => {
     expect(screen.getByTestId('data-source-panel')).toHaveTextContent('1:idle')
     expect(screen.getByTestId('base-navigator')).toBeVisible()
     expect(screen.getByTestId('navigator-width')).toHaveTextContent('320')
+    expect(screen.getByTestId('detail-header')).toHaveTextContent('Base 1')
   })
 
   it('returns from an embedded preview to the current directory', async () => {
@@ -1063,7 +1059,7 @@ describe('KnowledgePage', () => {
     expect(screen.getByTestId('data-source-panel')).toHaveTextContent('1:idle')
   })
 
-  it('keeps the chunk detail panel visible behind the RAG drawer when opened', async () => {
+  it('hides knowledge-base actions while the chunk detail panel is open', async () => {
     mockUseKnowledgeBases.mockReturnValue({
       bases: [createKnowledgeBase({ id: 'base-1', name: 'Base 1' })],
       isLoading: false,
@@ -1086,11 +1082,9 @@ describe('KnowledgePage', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'OpenChunks item-1' }))
     expect(screen.getByTestId('chunk-detail-panel')).toBeInTheDocument()
-
-    fireEvent.click(screen.getByRole('button', { name: 'OpenRagConfig' }))
-    expect(screen.getByTestId('rag-config-panel')).toHaveTextContent('Base 1')
-    // Drawer overlay does not unmount the chunk detail panel underneath
-    expect(screen.getByTestId('chunk-detail-panel')).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'OpenRagConfig' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'OpenRecallTest' })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('rag-config-panel')).not.toBeInTheDocument()
   })
 
   it('shows the loading state when bases are still loading', () => {
@@ -1767,7 +1761,7 @@ describe('KnowledgePage', () => {
 
     vi.spyOn(content, 'getBoundingClientRect').mockReturnValue(new DOMRect(40, 0, 800, 500))
 
-    expect(screen.getByTestId('navigator-width')).toHaveTextContent('240')
+    expect(screen.getByTestId('navigator-width')).toHaveTextContent('250')
 
     fireEvent.mouseDown(resizeButton)
     fireEvent.mouseMove(document, { clientX: 360 })
