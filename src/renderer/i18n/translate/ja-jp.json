@@ -3354,7 +3354,7 @@
             "label": "小型モデル（オプション）"
           }
         },
-        "model_config": "モデル構成",
+        "model_config": "モデル",
         "section": {
           "advanced": {
             "desc": "実行制限とランタイムパラメータ",
@@ -7353,10 +7353,6 @@
       "prevent_sleep_when_busy": "タスクが実行されている間はシステムをスリープさせない"
     },
     "privacy": {
-      "contextual_greetings": {
-        "description": "有効にすると、Cherry Studio は IPInfo に接続しておおよその国または地域を検出し、その結果を名前、アプリの言語、現地の日付と時刻、タイムゾーンとともに内蔵の CherryAI モデルへ送信してあいさつを生成します。初期設定では無効です。",
-        "title": "AI によるコンテキストに応じたあいさつ"
-      },
       "enable_privacy_mode": "匿名エラーレポートとデータ統計の送信",
       "title": "プライバシー設定"
     },
@@ -8083,7 +8079,7 @@
           "save_failed": "保存に失敗しました",
           "zhipu_sync_failed": "Zhipu APIキーのWeb Searchへの同期に失敗しました。キーを再保存するか、Web Searchの設定を確認してください。"
         },
-        "fetch_urls_provider": "デフォルトのURL取得プロバイダー",
+        "fetch_urls_provider": "URL取得プロバイダー",
         "free": "無料",
         "is_default": "デフォルト",
         "local_provider": {

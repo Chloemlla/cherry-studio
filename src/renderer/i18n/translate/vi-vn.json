@@ -3354,7 +3354,7 @@
             "label": "Mô hình nhỏ (tùy chọn)"
           }
         },
-        "model_config": "Cấu hình mô hình",
+        "model_config": "Mô hình",
         "section": {
           "advanced": {
             "desc": "Giới hạn thực thi và các tham số thời gian chạy",
@@ -7353,10 +7353,6 @@
       "prevent_sleep_when_busy": "Giữ hệ thống luôn hoạt động trong khi các tác vụ đang chạy"
     },
     "privacy": {
-      "contextual_greetings": {
-        "description": "Khi bật, Cherry Studio liên hệ với IPInfo để xác định gần đúng quốc gia hoặc khu vực, sau đó gửi kết quả đó cùng với tên của bạn, ngôn ngữ ứng dụng, ngày giờ địa phương và múi giờ đến mô hình CherryAI tích hợp để tạo lời chào. Tính năng này mặc định bị tắt.",
-        "title": "Lời chào theo ngữ cảnh do AI tạo"
-      },
       "enable_privacy_mode": "Báo cáo lỗi và thống kê ẩn danh",
       "title": "Cài đặt quyền riêng tư"
     },
@@ -8083,7 +8079,7 @@
           "save_failed": "Lưu thất bại",
           "zhipu_sync_failed": "Không thể đồng bộ khóa API Zhipu với Tìm kiếm Web. Vui lòng lưu lại khóa hoặc kiểm tra cài đặt Tìm kiếm Web."
         },
-        "fetch_urls_provider": "Nhà cung cấp tìm nạp URL mặc định",
+        "fetch_urls_provider": "Nhà cung cấp tìm nạp URL",
         "free": "Miễn phí",
         "is_default": "Mặc định",
         "local_provider": {
