@@ -150,6 +150,7 @@ export function classifyError(error?: SerializedError, providerId?: string): Err
     msg.includes('api key is invalid') ||
     msg.includes('incorrect api key') ||
     msg.includes('authentication') ||
+    msg.includes('not logged in') ||
     msg.includes('unauthorized')
   ) {
     return { category: 'auth', i18nKey: 'error.diagnosis.auth', navTarget: `/settings/provider${providerSuffix}` }
@@ -266,6 +267,7 @@ export function classifyError(error?: SerializedError, providerId?: string): Err
 
   // Proxy / SSL certificate errors
   if (
+    msg.includes('err_ssl_client_auth_cert_needed') ||
     isProxyErrorMessage(msg) ||
     msg.includes('socks') ||
     msg.includes('certificate') ||
